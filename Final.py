@@ -54,8 +54,7 @@ def data_management(data):
                 print_values(data, user_country, user_range, 5, total_pop)
 
                 # Check at the end if user wants to perform another search in same country, or exit to country selection
-                print()  # blank space for readability
-                choice = input("Would you like to check another range of dates in this same country? (Y/N): ").lower()
+                choice = input("\nWould you like to check another range of dates in this same country? (Y/N): ").lower()
                 if choice != "y":
                     break
         else:
@@ -231,11 +230,11 @@ def convert_github_format(chosen_date):
 # Function to collect all the different data from every resource
 def collect_data():
     """
-    Create empty dictionary to fill up with something like:
-        { 
-            country_name : { 
+    Create empty dictionary to be progressively filled up like:
+        {
+            country_name : {
                 date : [confirmed, deaths, recovered, active, total population, vaccinated]
-            } 
+            }
         }
     """
     final_data = {}
