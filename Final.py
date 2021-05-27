@@ -10,7 +10,7 @@ COUNTRY_DEATHS_CASES = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-1
 
 def main():
     """ Data pre-loading state. """
-    print("Please wait, collecting all available data...")
+    print("\nPlease wait, collecting all available data...")
     final_data = collect_data()
     print("Ready!")
     """ Pre-loading done"""
@@ -90,7 +90,7 @@ def data_management(data):
 def obtain_similar(data, user_country):
     # Create empty list to save possible similar countries
     similar_list = []
-    # Iterate conuntries and add to the list the ones that start with the value that user introduced
+    # Iterate countries and add to the list the ones that start with the value that user introduced
     for country in data.keys():
         if country.startswith(user_country):
             similar_list.append(country)
@@ -308,7 +308,7 @@ def compute_information(final_data, date_range):
     print("Pre-loading information about deaths and confirmed / recovered / active cases for the full available date range...")
     print("(This may take a while, please stand by)... ", end="")
     for day in date_range:
-        # Use the web adress with the start of the link + current day in the iteration + .csv at the end for the full link
+        # Use the web address with the start of the link + current day in the iteration + .csv at the end for the full link
         web_info = requests.get(COUNTRY_DEATHS_CASES + day + ".csv").text.splitlines()
         reader = csv.reader(web_info)
         # Jump first line (headers)
