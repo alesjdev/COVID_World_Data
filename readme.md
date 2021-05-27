@@ -17,7 +17,10 @@ It iterates through the .csv files forming a nested dictionary:
     }
 }
 
-After the information has been gathered and indexed, the user can choose a country and a date range.
+After the information has been gathered and indexed, the user can choose a country and date range.
+User can also type "LIST" for a list of indexed countries.
+
+If the user's choice doesn't match any of the indexed values, the program will attempt to gather a list of countries with names that start with the user's choice.
 
 The program will default to the first and/or last date available if: 
 
