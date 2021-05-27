@@ -86,6 +86,7 @@ def data_management(data):
     print("Goodbye!")
 
 
+# Function to retrieve a list of countries that start with the input the user entered
 def obtain_similar(data, user_country):
     # Create empty list to save possible similar countries
     similar_list = []
@@ -96,6 +97,7 @@ def obtain_similar(data, user_country):
     return similar_list
 
 
+# Function to ask for a country and return a full uppercase value without side spaces
 def choose_country():
     # Ask user to choose a country, quit or display a list
     user_country = input("\nWhat country do you want to get information about?\nType a country name, LIST for a list of available countries, or press enter to exit: ")
