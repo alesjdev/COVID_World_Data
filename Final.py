@@ -25,7 +25,7 @@ def data_management(data):
     while user_country != "":
         if user_country in data:
             while True:
-                user_range = get_user_date_range()  # obtain list with range of dates to perform the search
+                user_range = get_user_date_range(data[user_country])  # obtain list with range of dates to perform the search
 
                 """ Information display """
                 print("\n>>> " + user_country + ", available data between " + user_range[0] + " and " + user_range[-1] + ":")
@@ -213,44 +213,56 @@ def get_full_date_range():
 
 
 # Function to obtain and validate date range provided by user
-def get_user_date_range():
-    print("I need a start and end date between 03-22-2020 and today in MM-DD-YYYY format, leave blank for full range.")
+def get_user_date_range(country):
+    # Obtain earliest and latest available dates in memory for that country:
+    first_date = list(country.keys())[0]  # earliest stored date
+    year = int(first_date[6:])
+    month = int(first_date[:2])
+    day = int(first_date[3:5])
+    first = date(year, month, day)  # revert to earliest stored key if there is any error
+    last_date = list(country.keys())[-1]
+    year = int(last_date[6:])
+    month = int(last_date[:2])
+    day = int(last_date[3:5])
+    last = date(year, month, day)  # revert to the latest stored key if there is any error
+
+    print("I need a start and end date in MM-DD-YYYY format, leave blank for full range.")
 
     start = input("Start date: ").split("-")
     end = input("End date: ").split("-")
 
     try:
         sdate = date(int(start[2]), int(start[0]), int(start[1]))  # start date
-    except (ValueError, IndexError):
-        sdate = date(2020, 3, 22)  # revert to default if there is any error
+    except (ValueError, IndexError, KeyError):
+        sdate = first
 
     try:
         edate = date(int(end[2]), int(end[0]), int(end[1]))  # end date
-    except (ValueError, IndexError):
-        edate = date.today()  # revert to default if there is any error
+    except (ValueError, IndexError, KeyError):
+        edate = last
 
-    # If user writes a later date on the start than the end, swap the numbers
+        # If user writes a later date on the start than the end, swap the numbers
     if sdate > edate:
         temp = sdate
         sdate = edate
         edate = temp
 
     # If user writes values similar to a date but out of the scope, default that value to the lowest / highest available date
-    if sdate < date(2020, 3, 22):
-        sdate = date(2020, 3, 22)
-    elif sdate > date.today():
-        sdate = date.today()
+    if sdate < first:
+        sdate = first
+    elif sdate > last:
+        sdate = last
 
-    if edate > date.today():
-        edate = date.today()
-    elif edate < date(2020, 3, 22):
-        edate = date(2020, 3, 22)
+    if edate > last:
+        edate = last
+    elif edate < first:
+        edate = first
 
     # If user writes same value on start and end date, get one day earlier or later without going out of bounds
     if sdate == edate:
-        if edate < date.today() - timedelta(days=1):
+        if edate < last - timedelta(days=1):
             edate = edate + timedelta(days=1)
-        elif sdate > date(2020, 3, 22):
+        elif sdate > first:
             sdate = sdate - timedelta(days=1)
 
     delta = edate - sdate  # as timedelta
